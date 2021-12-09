@@ -1,18 +1,1 @@
-[
-    {"nome": "Luca",
-    "cognome":"Agostinelli",
-    "id": 1    
-    },
-    {"nome": "Adrian",
-    "cognome":"Alampi",
-    "id": 2    
-    },
-    {"nome": "Mattia",
-    "cognome":"Amati",
-    "id": 3    
-    },
-    {"nome": "Pietro",
-    "cognome":"Ardizzone",
-    "id": 4    
-    }
-]
+[{"nome":"Luca","cognome":"Agostinelli","id":1},{"nome":"Adrian","cognome":"Alampi","id":2}]

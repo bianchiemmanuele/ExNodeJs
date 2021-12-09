@@ -1,6 +1,7 @@
 var express = require("express");
 var apiServer = express();
 var fs = require("fs");
+const { parse } = require("path");
 
 // All'interno del apiServer è neccessario la porta, l'host e la funzione eseguia quando ascolta 
 
@@ -47,13 +48,38 @@ apiServer.get("/Studenti", (request, response) => {
         }else{
             var studenti = JSON.parse(data);
             //console.log("studenti:" +  studenti[0].cognome);
-           for(i = 0; i<studenti.length; i++){
-            if(studenti[i].id == request.query.id){
-                console.log("studenti:" +  studenti[i].nome +"  " + studenti[i].cognome);
-                response.send("studente:" +" nome="+  studenti[i].nome +" cognome=" + studenti[i].cognome);
-            }
-           } 
+            studenti.find(x => x.id === request.query.id);
+        //    for(i = 0; i<studenti.length; i++){
+        //      if(studenti[i].id === request.query.id){
+        //         console.log("studenti:" +  studenti[i].nome +"  " + studenti[i].cognome);
+        //         response.send("studente:" +" nome="+  studenti[i].nome +" cognome=" + studenti[i].cognome);
+        //      }
+        //    } 
         }
 
     });
+});
+// https://localhost:3000/nuovoStudente?id=3&nome=Mattia&cognome=Amati
+apiServer.get("/nuovoStudenti", (request, response) => {
+    fs.readFile("Studenti.json", (err, data) => {
+        if(err){
+            console.log("error" + err)
+        }else{
+            var studenti = JSON.parse(data);
+            
+            var a ={
+                "id": request.query.id,
+                "nome": request.query.nome,
+                "cognome": request.query.cognome
+            };
+            fs.writeFile("Studenti.json", JSON.stringify(studenti)+JSON.stringify(a), (err) => {
+                if(err){
+                    console.log("error" + err);
+                }else{
+                    console.log("file create")
+                }
+        
+            }); 
+        }
+    });  
 });
