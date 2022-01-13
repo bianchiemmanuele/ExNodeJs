@@ -1,3 +1,4 @@
+const { json } = require("express");
 var express = require("express");
 var apiServer = express();
 var fs = require("fs");
@@ -27,7 +28,13 @@ apiServer.get("/nome", (request, response) => {
 apiServer.get("/mioNome", (request, response) => {
     var nome = request.query.nome;
     console.log("richiesta get su nome");
-    response.send("Ciao il mio nome è "+nome);
+    response.setHeader("Content-type", "application/json");
+    response.send(JSON.stringify({"nome": request.query.nome},null,3));
+});
+apiServer.post("/mioNome", (request, response) => {
+    console.log("richiesta get su nome", request.body, request.socket.remoteAddress);
+    response.setHeader("Content-type", "application/json");
+    response.send(JSON.stringify({"nome": request.body.nome},null,3));
 });
 // https://localhost:3000/Somma?a=1&b=2
 apiServer.get("/somma", (request, response) => {
@@ -37,7 +44,6 @@ apiServer.get("/somma", (request, response) => {
     console.log("somma request "+ request.query);
     response.send("Somma: "+ (request.query.a - (- request.query.b)));
 });
-
 // https://localhost:3000/studenti?id=1
 apiServer.get("/Studenti", (request, response) => {
     console.log("studenti id "+ request.query.id);
